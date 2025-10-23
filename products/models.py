@@ -2,6 +2,7 @@ from django.db import models
 from core.models import Base
 from category.models import Category
 from decimal import Decimal
+from django.urls import reverse
 
 
 class Product(Base):
@@ -29,6 +30,12 @@ class Product(Base):
     in_stock = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tax = models.DecimalField(max_digits=3, decimal_places=2)
+    is_active = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Product"
+        verbose_name_plural = "Products"
+        ordering = ("name",)
 
     def calculate_total_with_tax(self):
         """
@@ -52,6 +59,11 @@ class Product(Base):
             Decimal: The total price after applying the tax rate.
         """
         return self.calculate_total_with_tax()
+    
+    @property
+    def get_absolute_url(self):
+        return reverse("api_single_product", kwargs={"slug": self.slug})
+    
     
     def __str__(self):
         return self.name
