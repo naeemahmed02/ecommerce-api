@@ -12,3 +12,10 @@ class Product(Base):
     stock = models.IntegerField()
     in_stock = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    tax = models.DecimalField(max_digits=3, decimal_places=2)
+
+    class Meta:
+        verbose_name = "Product"
+        verbose_name_plural = "Products"
+    
+
