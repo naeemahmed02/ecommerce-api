@@ -52,3 +52,10 @@ class Product(Base):
             Decimal: The total price after applying the tax rate.
         """
         return self.calculate_total_with_tax()
+    
+    def __str__(self):
+        return self.name
+    
+
+
+
