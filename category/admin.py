@@ -6,3 +6,4 @@ from .models import Category
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "created_at", "updated_at")
     search_fields = ("name",)
+    prepopulated_fields = {"slug": ['name']}
