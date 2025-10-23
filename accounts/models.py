@@ -39,13 +39,29 @@ class CustomAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def create_superuser(
+        self, first_name, last_name, email, username, password=None, **extra_fields
+    ):
+        extra_fields.setdefault("is_admin", True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_active", True)
 
-class Account(models.Model):
+        return self.create_user(
+            first_name=first_name,
+            last_name=last_name,
+            email=self.normalize_email(email),
+            username = username,
+            password=password,
+            **extra_fields
+        )
+
+
+class Account(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    email = models.EmailField()
-    username = models.CharField(max_length=50)
-    phone_number = models.CharField(max_length=20, unique=True)
+    email = models.EmailField(unique=True)
+    username = models.CharField(max_length=50, unique=True)
+    phone_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
 
     # System Flags
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -53,6 +69,8 @@ class Account(models.Model):
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+
+    objects = CustomAccountManager()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name", "username"]
