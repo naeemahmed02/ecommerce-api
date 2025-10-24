@@ -3,11 +3,12 @@ from ..serializers import ProductSerializer
 from rest_framework import generics, permissions
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
+from .. custom_permissions import GetAndPostCustomPermission
 
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [GetAndPostCustomPermission]
 
     def get_queryset(self):
         # filter active products
