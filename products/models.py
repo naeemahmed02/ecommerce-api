@@ -25,7 +25,7 @@ class Product(Base):
     slug = models.SlugField(max_length=1100, unique=True)
     product_description = models.TextField(null=True, blank=True)
     price = models.DecimalField(max_digits=20, decimal_places=2)
-    image = models.ImageField(upload_to="products")
+    image = models.ImageField(upload_to="products", null=True, blank=True)
     stock = models.IntegerField()
     in_stock = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)

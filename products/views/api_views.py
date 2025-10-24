@@ -3,7 +3,7 @@ from ..serializers import ProductSerializer
 from rest_framework import generics, permissions
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
-from .. custom_permissions import GetAndPostCustomPermission
+from ..custom_permissions import GetAndPostCustomPermission
 
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
@@ -21,7 +21,7 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         # check if the user is the owner of the store (staff or admin)
         if not user.is_staff and not user.is_admin:
             raise PermissionDenied("You are not allowed to be here")
-        serializer.save(created_by=user)
+        serializer.save()
 
 
 class RetrieveUpdateDestroyAPIViewAPIView(generics.RetrieveUpdateDestroyAPIView):
