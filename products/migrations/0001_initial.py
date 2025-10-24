@@ -9,29 +9,43 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('category', '0001_initial'),
+        ("category", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('name', models.CharField(max_length=1000, unique=True)),
-                ('slug', models.SlugField(max_length=1100, unique=True)),
-                ('product_description', models.TextField(blank=True, null=True)),
-                ('price', models.DecimalField(decimal_places=2, max_digits=20)),
-                ('image', models.ImageField(upload_to='products')),
-                ('stock', models.IntegerField()),
-                ('in_stock', models.BooleanField(default=True)),
-                ('tax', models.DecimalField(decimal_places=2, max_digits=3)),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='category.category')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("name", models.CharField(max_length=1000, unique=True)),
+                ("slug", models.SlugField(max_length=1100, unique=True)),
+                ("product_description", models.TextField(blank=True, null=True)),
+                ("price", models.DecimalField(decimal_places=2, max_digits=20)),
+                ("image", models.ImageField(upload_to="products")),
+                ("stock", models.IntegerField()),
+                ("in_stock", models.BooleanField(default=True)),
+                ("tax", models.DecimalField(decimal_places=2, max_digits=3)),
+                (
+                    "category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="category.category",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Product',
-                'verbose_name_plural': 'Products',
+                "verbose_name": "Product",
+                "verbose_name_plural": "Products",
             },
         ),
     ]

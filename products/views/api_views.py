@@ -1,15 +1,30 @@
-from .. models import Product
-from .. serializers import ProductSerializer
+from ..models import Product
+from ..serializers import ProductSerializer
 from rest_framework import generics, permissions
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.response import Response
 
-class ProductListAPIView(generics.ListCreateAPIView):
+
+class ProductListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
-    queryset = Product.objects.filter(is_active=True)
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    def get_queryset(self):
+        # filter active products
+        return Product.objects.filter(is_active=True)
+
+    def perform_create(self, serializer):
+
+        # current user
+        user = self.request.user
+        # check if the user is the owner of the store (staff or admin)
+        if not user.is_staff and not user.is_admin:
+            raise PermissionDenied("You are not allowed to be here")
+        serializer.save(created_by=user)
 
 
 class RetrieveUpdateDestroyAPIViewAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.filter(is_active=True)
-    lookup_field = 'slug'
+    lookup_field = "slug"
     permission_classes = [permissions.AllowAny]

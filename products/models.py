@@ -25,7 +25,7 @@ class Product(Base):
     slug = models.SlugField(max_length=1100, unique=True)
     product_description = models.TextField(null=True, blank=True)
     price = models.DecimalField(max_digits=20, decimal_places=2)
-    image = models.ImageField(upload_to='products')
+    image = models.ImageField(upload_to="products")
     stock = models.IntegerField()
     in_stock = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -46,7 +46,7 @@ class Product(Base):
                      For example, if price=100 and tax=0.10, returns 110.00.
         """
         return self.price * (Decimal("1.00") + self.tax)
-    
+
     @property
     def total_with_tax(self):
         """
@@ -59,15 +59,10 @@ class Product(Base):
             Decimal: The total price after applying the tax rate.
         """
         return self.calculate_total_with_tax()
-    
+
     @property
     def get_absolute_url(self):
         return reverse("api_single_product", kwargs={"slug": self.slug})
-    
-    
+
     def __str__(self):
         return self.name
-    
-
-
-
