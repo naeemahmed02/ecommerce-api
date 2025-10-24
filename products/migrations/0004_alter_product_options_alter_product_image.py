@@ -6,17 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('products', '0003_rename_active_product_is_active'),
+        ("products", "0003_rename_active_product_is_active"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='product',
-            options={'ordering': ('name',), 'verbose_name': 'Product', 'verbose_name_plural': 'Products'},
+            name="product",
+            options={
+                "ordering": ("name",),
+                "verbose_name": "Product",
+                "verbose_name_plural": "Products",
+            },
         ),
         migrations.AlterField(
-            model_name='product',
-            name='image',
-            field=models.ImageField(blank=True, null=True, upload_to='products'),
+            model_name="product",
+            name="image",
+            field=models.ImageField(blank=True, null=True, upload_to="products"),
         ),
     ]
