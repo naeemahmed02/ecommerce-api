@@ -6,6 +6,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('products.urls.api_urls')),
+    path('api/v1/', include('category.urls.api_urls')),
 ]
 
 # Serve static and media files during development

@@ -10,14 +10,14 @@ class CustomAccountManager(BaseUserManager):
 
     # method to create common user
     def create_user(
-        self,
-        first_name,
-        last_name,
-        email,
-        username,
-        phone_number=None,
-        password=None,
-        **extra_fields,
+            self,
+            first_name,
+            last_name,
+            email,
+            username,
+            phone_number=None,
+            password=None,
+            **extra_fields,
     ):
         if not email:
             raise ValueError("user must have a valid email address")
@@ -40,7 +40,7 @@ class CustomAccountManager(BaseUserManager):
         return user
 
     def create_superuser(
-        self, first_name, last_name, email, username, password=None, **extra_fields
+            self, first_name, last_name, email, username, password=None, **extra_fields
     ):
         extra_fields.setdefault("is_admin", True)
         extra_fields.setdefault("is_staff", True)
@@ -50,7 +50,7 @@ class CustomAccountManager(BaseUserManager):
             first_name=first_name,
             last_name=last_name,
             email=self.normalize_email(email),
-            username = username,
+            username=username,
             password=password,
             **extra_fields
         )

@@ -15,7 +15,6 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         return Product.objects.filter(is_active=True)
 
     def perform_create(self, serializer):
-
         # current user
         user = self.request.user
         # check if the user is the owner of the store (staff or admin)
