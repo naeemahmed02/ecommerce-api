@@ -13,11 +13,22 @@ class CategoryCreateListAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Category.objects.all()
+        return queryset
 
     def perform_create(self, serializer):
         # set the current user
         current_user = self.request.user
 
         # check if the current user is an admin or staff user
-        if not current_user.is_staff and current_user.is_admin:
+        if not current_user.is_admin:
             raise PermissionDenied("You are not allowed to access this resource")
+        serializer.save()
+
+class CategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CategorySerializer
+    permission_classes = [GetAndPostCustomPermission]
+    lookup_field = "category_slug"
+
+    def get_queryset(self):
+        queryset = Category.objects.all()
+        return queryset

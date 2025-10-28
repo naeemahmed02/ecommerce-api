@@ -16,10 +16,10 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         # current user
-        user = self.request.user
+        current_user = self.request.user
         # check if the user is the owner of the store (staff or admin)
-        if not user.is_staff and not user.is_admin:
-            raise PermissionDenied("You are not allowed to be here")
+        if not current_user.is_admin:
+            raise PermissionDenied("You are not allowed to access this resource")
         serializer.save()
 
 
