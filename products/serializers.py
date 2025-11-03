@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from products.models import Product
+from products.models import Product, ProductVariations
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -10,7 +10,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = fields = [
+        fields = [
             "id",
             "name",
             "slug",
@@ -27,3 +27,8 @@ class ProductSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
+class ProductVariaionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductVariations
+        fields = "__all__"

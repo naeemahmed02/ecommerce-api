@@ -8,6 +8,7 @@ urlpatterns = [
     path('api/v1/', include('products.urls.api_urls')),
     path('api/v1/', include('category.urls.api_urls')),
     path('api/v1/accounts/', include('accounts.urls.api_urls')),
+    path('api/v1/cart/', include('cart.urls.api_urls')),
 ]
 
 # Serve static and media files during development
