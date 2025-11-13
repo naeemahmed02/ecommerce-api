@@ -52,10 +52,13 @@ class AddCartAPIView(generics.CreateAPIView):
         # --- Determine if user is authenticated ---
         if request.user.is_authenticated:
             cart_items = CartItem.objects.filter(product=product, user=request.user)
+        # else:
+        #     # Anonymous user, get or create cart
+        #     cart, _ = Cart.objects.get_or_create(cart_id=_cart_id(request))
+        #     cart_items = CartItem.objects.filter(product=product, cart=cart)
+
         else:
-            # Anonymous user, get or create cart
-            cart, _ = Cart.objects.get_or_create(cart_id=_cart_id(request))
-            cart_items = CartItem.objects.filter(product=product, cart=cart)
+            return Response({"error": "User not logged in"}, status=401)
 
         # --- Compare existing items by variation sets ---
         existing_variation_list = [
@@ -79,10 +82,11 @@ class AddCartAPIView(generics.CreateAPIView):
                 cart_item = CartItem.objects.create(
                     product=product, quantity=quantity, user=request.user
                 )
-            else:
-                cart_item = CartItem.objects.create(
-                    product=product, quantity=quantity, cart=cart
-                )
+            # else:
+            #     cart_item = CartItem.objects.create(
+            #         product=product, quantity=quantity, cart=cart
+            #     )
+            return Response({"error": "User not logged in"}, status=401)
             if product_variations:
                 cart_item.variation.add(*product_variations)
             cart_item.save()
