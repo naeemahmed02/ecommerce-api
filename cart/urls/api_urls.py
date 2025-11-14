@@ -2,5 +2,6 @@ from django.urls import path
 from ..views import api_views
 
 urlpatterns = [
-    path('add_cart/<int:product_id>/', api_views.AddCartAPIView.as_view(), name='add_cart'),
+    path('add_cart/<int:product_id>/<int:cart_item_id>/', api_views.AddCartAPIView.as_view(), name='add_cart'),
+    path('add_cart/<int:product_id>/', api_views.AddCartAPIView.as_view(), name='remove_cart'),
 ]

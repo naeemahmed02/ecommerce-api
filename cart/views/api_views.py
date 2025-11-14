@@ -1,4 +1,6 @@
 from django.http import HttpResponse
+from rest_framework.decorators import action
+
 from products.models import Product, ProductVariations
 from ..models import Cart, CartItem
 from rest_framework import generics, permissions
@@ -99,3 +101,49 @@ class AddCartAPIView(generics.CreateAPIView):
             "quantity": cart_item.quantity,
             "variations": list(product_variations.values('id', 'variation_category', 'variation_value'))
         }, status=200)
+
+
+    def patch(self, request, product_id, cart_item_id=None, *args, **kwargs):
+        # require login
+        if not request.user.is_authenticated:
+            return Response({
+                "error": "User not logged in"
+            }, status=401)
+
+        # validate product
+        try:
+            product = Product.objects.get(id = product_id)
+        except Product.DoesNotExist:
+            return Response(
+                {
+                    "error" : "Product not found"
+                }, status=404
+            )
+
+        # validate cart item
+        try:
+            cart_item = CartItem.objects.get(id = cart_item_id, user = request.user, product = product)
+        except CartItem.DoesNotExist:
+            return Response(
+                {
+                    "error" : "CartItem not found"
+                }, status=404
+            )
+
+        # Decrease or remove
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+            return Response({
+            "success": True,
+            "message": "Quantity decreased",
+            "quantity": cart_item.quantity,
+            "cart_item_id": cart_item.id
+        }, status=200)
+
+        else:
+            cart_item.delete()
+            return Response({
+                "success": True,
+                "message": "Item removed from cart",
+            }, status=200)
