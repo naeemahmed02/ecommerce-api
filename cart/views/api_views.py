@@ -1,5 +1,8 @@
 from django.http import HttpResponse
 from rest_framework.decorators import action
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 from products.models import Product, ProductVariations
 from ..models import Cart, CartItem
@@ -147,3 +150,63 @@ class AddCartAPIView(generics.CreateAPIView):
                 "success": True,
                 "message": "Item removed from cart",
             }, status=200)
+
+class DeleteCartItemAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, cart_item_id, *args, **kwargs):
+        try:
+            cart_item = CartItem.objects.get(id=cart_item_id, user=request.user)
+        except CartItem.DoesNotExist:
+            return Response({"error": "CartItem not found"}, status=404)
+
+        cart_item.delete()
+        return Response({
+            "success": True,
+            "message": "Item removed from cart"
+        }, status=200)
+
+class UpdateCartItemAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, cart_item_id, *args, **kwargs):
+        action = request.data.get("action", None)
+        # expected: action = "increase" or "decrease"
+
+        try:
+            cart_item = CartItem.objects.get(id=cart_item_id, user=request.user)
+        except CartItem.DoesNotExist:
+            return Response({"error": "CartItem not found"}, status=404)
+
+        if action == "increase":
+            cart_item.quantity += 1
+            cart_item.save()
+
+        elif action == "decrease":
+            if cart_item.quantity > 1:
+                cart_item.quantity -= 1
+                cart_item.save()
+            else:
+                cart_item.delete()
+                return Response({"success": True, "message": "Item removed"}, status=200)
+        else:
+            return Response({"error": "Invalid action"}, status=400)
+
+        return Response({
+            "success": True,
+            "cart_item_id": cart_item.id,
+            "quantity": cart_item.quantity
+        }, status=200)
+
+
+class GetCartItems(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CartItemSerializer
+
+    def get_queryset(self):
+        return (
+            CartItem.objects
+            .select_related("product")
+            .filter(is_active=True, user=self.request.user)
+            .order_by("-id")
+        )
