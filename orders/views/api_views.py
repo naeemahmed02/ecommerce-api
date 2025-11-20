@@ -79,6 +79,39 @@ class OrderUpdateRetrieveDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 
+class FakePaymentAPIView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
 
+    def post(self, request, *args, **kwargs):
+        order_id = request.data.get("order_id")
+        payment_method = request.data.get("payment_method", "Fake Gateway")
 
+        if not order_id:
+            return Response({"error": "Order ID is required"}, status=400)
 
+        try:
+            order = Order.objects.get(id=order_id, user=request.user, is_ordered=False)
+        except Order.DoesNotExist:
+            return Response({"error": "Order not found or already paid"}, status=404)
+
+        # Create a fake payment
+        payment = Payment.objects.create(
+            user=request.user,
+            payment_id=str(uuid.uuid4()),  # fake payment transaction id
+            payment_method=payment_method,
+            amount_paid=order.order_total,
+            status="Paid"
+        )
+
+        # Update the order
+        order.payment = payment
+        order.is_ordered = True
+        order.status = "Completed"
+        order.save()
+
+        return Response({
+            "message": "Payment successful",
+            "order_id": order.id,
+            "payment_id": payment.payment_id,
+            "status": order.status
+        }, status=200)
