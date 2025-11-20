@@ -78,7 +78,6 @@ class OrderUpdateRetrieveDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
         return Order.objects.filter(user = self.request.user, is_ordered = True)
 
 
-
 class FakePaymentAPIView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
