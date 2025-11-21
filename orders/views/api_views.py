@@ -67,7 +67,6 @@ class CheckoutAPIView(generics.GenericAPIView):
         }, status=201)
 
 
-
 class OrderUpdateRetrieveDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = OrderSerializer
@@ -80,6 +79,7 @@ class OrderUpdateRetrieveDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 class FakePaymentAPIView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = PaymentSerializer
 
     def post(self, request, *args, **kwargs):
         order_id = request.data.get("order_id")

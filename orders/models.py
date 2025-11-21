@@ -61,6 +61,6 @@ class OrderProduct(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.order
+        return f"OrderProduct for Order #{self.order.order_number}"
 
 
