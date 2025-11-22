@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About – Ecommerce API</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg,#f5f7fa,#e9efff);
+        color: #1c1c1c;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    /* Navbar */
+    .navbar {
+        background: #304ffe;
+        padding: 15px 30px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .navbar a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        margin-left: 20px;
+        transition: 0.2s;
+    }
+    .navbar a:hover {
+        color: #c5c5ff;
+    }
+
+    /* Hero section */
+    .hero {
+        text-align: center;
+        padding: 80px 20px 40px;
+    }
+    .hero h1 {
+        font-size: 42px;
+        margin: 0;
+        color: #304ffe;
+    }
+    .hero p {
+        font-size: 18px;
+        color: #555;
+        margin-top: 10px;
+    }
+
+    /* Cards section */
+    .cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin: 40px 20px;
+    }
+    .card {
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
+        width: 300px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+    }
+    .card h2 {
+        color: #304ffe;
+        font-size: 22px;
+        margin-top: 0;
+    }
+    .card p {
+        color: #444;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    /* Buttons */
+    .buttons {
+        text-align: center;
+        margin: 40px 0;
+    }
+    .button {
+        display: inline-block;
+        padding: 14px 24px;
+        margin: 0 10px;
+        font-weight: 600;
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 15px;
+        transition: 0.25s;
+    }
+    .button-docs {
+        background: #304ffe;
+        color: white;
+    }
+    .button-docs:hover {
+        background: #1e3ad9;
+    }
+    .button-home {
+        background: #e8ecff;
+        color: #304ffe;
+    }
+    .button-home:hover {
+        background: #d7ddff;
+    }
+
+    /* Footer */
+    .footer {
+        margin-top: auto;
+        padding: 20px;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+    }
+
+    @media (max-width: 680px) {
+        .cards {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <div class="logo">Ecommerce API</div>
+        <div>
+            <a href="/">Home</a>
+            <a href="/swagger/">Documentation</a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1>About Ecommerce API</h1>
+        <p>A fast, secure, and scalable backend for modern e-commerce applications.</p>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <h2>Core Features</h2>
+            <p>Authentication, Products, Categories, Cart, Orders, and Payments – all RESTful endpoints designed for smooth integration.</p>
+        </div>
+
+        <div class="card">
+            <h2>Technology</h2>
+            <p>Django REST Framework, PostgreSQL/MySQL compatible, Swagger auto-documentation, token-based authentication, and production-ready architecture.</p>
+        </div>
+
+        <div class="card">
+            <h2>Developer Info</h2>
+            <p>Contact: <strong>naeemahmedbdn2002@gmail.com</strong>
+            <br>License: <strong>BSD License</strong></p>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <a href="/" class="button button-home">← Home</a>
+        <a href="/swagger/" class="button button-docs">📘 API Documentation</a>
+    </div>
+
+    <div class="footer">
+        © {{ year }} Ecommerce API – Built with Django REST Framework
+    </div>
+
+</body>
+</html>

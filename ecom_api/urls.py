@@ -28,6 +28,7 @@ urlpatterns = [
     path('api/v1/accounts/', include('accounts.urls.api_urls')),
     path('api/v1/cart/', include('cart.urls.api_urls')),
     path('api/v1/orders/', include('orders.urls.api_urls')),
+    path('', include('core.urls')),
 
     # Swagger UI
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),
