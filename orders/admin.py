@@ -24,7 +24,7 @@ class OrderAdmin(admin.ModelAdmin):
             "fields": ("first_name", "last_name", "email", "phone")
         }),
         ("Address", {
-            "fields": ("adress_line_one", "adress_line_two", "country", "state", "city")
+            "fields": ("address_line_one", "address_line_two", "country", "state", "city")
         }),
         ("Payment", {
             "fields": ("payment",)
