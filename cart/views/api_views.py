@@ -64,7 +64,6 @@ class ListCartItemsAPIView(generics.ListAPIView):
             .order_by("-id")
         )
 
-
 class UpdateCartItemAPIView(APIView):
     """
     PATCH /api/cart/items/<cart_item_id>/
